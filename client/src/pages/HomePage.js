@@ -12,7 +12,8 @@ const HomePage = () => {
     try{
       const user = JSON.parse(localStorage.getItem("user"))
       setLoading(true);
-      await axios.post("/transection/add-transection", {...values, userid:user._id})
+      await axios.post("http://localhost:8080/api/v1/transections/add-transection", {...values, userid:user._id});
+
       setLoading(false)
       message.success("transection added successfully")
       setShowModal(false)

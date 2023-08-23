@@ -1,6 +1,6 @@
 const transectionModel = require("../models/tansectionModel")
 
-const getAllTransection = async() => {
+const getAllTransection = async(req ,res) => {
     try{
         const transections = await transectionModel.find({userid:req.body.userid,});
         res.status(200).json(transections);
@@ -26,3 +26,5 @@ const addTransection = async (req ,res) => {
 
 
 module.exports = { getAllTransection, addTransection}
+
+
