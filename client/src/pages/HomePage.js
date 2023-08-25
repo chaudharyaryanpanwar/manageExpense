@@ -8,6 +8,7 @@ import Spinner from '../components/Spinner'
 const HomePage = () => {
   const [showModal , setShowModal] = useState(false)
   const [loading,setLoading] = useState(false)
+
   const handleSubmit = async (values)=>{
     try{
       const user = JSON.parse(localStorage.getItem("user"))
@@ -28,7 +29,9 @@ const HomePage = () => {
     <div className='filters'>
         <div>range filters</div>
         <div >
-            <button className='btn btn-primary' onClick={()=> setShowModal(true)}>Add New</button>
+            <button className='btn btn-primary'
+             onClick={()=> setShowModal(true)}>
+              Add New</button>
         </div>
     </div>
     <div className='content'></div>
@@ -37,6 +40,9 @@ const HomePage = () => {
       onCancel={()=>setShowModal(false)}
       footer = {false}
     >
+
+
+
       <Form layout="vertical" onFinish={handleSubmit}>
         <Form.Item label="Amount " name="amount">
           <Input type="text"/>
