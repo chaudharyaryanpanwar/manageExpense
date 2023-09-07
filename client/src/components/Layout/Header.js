@@ -6,7 +6,7 @@ const Header = () => {
   const [loginUser, setLoginUser] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setLoginUser(user);
     }
@@ -38,8 +38,10 @@ const Header = () => {
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                {" "}
-                <p className="nav-link">{loginUser && loginUser.name}</p>{" "}
+                <Link to = "/user" className="nav-link active" area-current = "page">
+                  {loginUser && loginUser.name}
+                </Link>
+                
               </li>
               <li className="nav-item">
                 <button className="btn btn-primary" onClick={logoutHandler}>

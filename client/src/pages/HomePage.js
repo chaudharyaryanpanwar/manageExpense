@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState , useEffect} from 'react'
 import {Modal,Form,Input,Select, message} from "antd"
 import Layout from '../components/Layout/Layout'
 import axios from "axios"
@@ -8,12 +8,32 @@ import Spinner from '../components/Spinner'
 const HomePage = () => {
   const [showModal , setShowModal] = useState(false)
   const [loading,setLoading] = useState(false)
+  const [allTransection , setAllTransection ] = useState([])
+
+  const getAllTransections = async ()=>{
+    try {
+      const user = JSON.parse(localStorage.getItem("user"))
+      setLoading(true)
+      const res = await axios.post('/transections/get-transection' , {userid : user.user._id})
+      setLoading(false)
+      setAllTransection(res.data)
+      console.log(res.data)
+    } catch (error) {
+      console.log(error)
+      message.error("fetch issues with Transection")
+    }
+  }
+
+  useEffect(()=>{
+    getAllTransections();
+  } , [])
 
   const handleSubmit = async (values)=>{
     try{
       const user = JSON.parse(localStorage.getItem("user"))
       setLoading(true);
-      await axios.post("http://localhost:8080/api/v1/transections/add-transection", {...values, userid:user._id});
+      await axios.post("http://localhost:8080/api/v1/transactions/add-transection",
+       {...values, userid: user.user._id});
 
       setLoading(false)
       message.success("transection added successfully")
@@ -21,6 +41,8 @@ const HomePage = () => {
     }catch(error){
       setLoading(false)
       message.error("failed to add transection ")
+      console.log((localStorage.getItem("user")))
+      console.log((localStorage.getItem("user"))._id)
     }
   }
   return (
