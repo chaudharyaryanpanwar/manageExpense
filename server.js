@@ -23,7 +23,7 @@ app.use("/api/v1/users", require("./routes/userRoute"));
 app.use("/api/v1/transactions", require("./routes/transectionRoutes"));
 
 
-const PORT = 8080 || process.env.PORT
+const PORT = 8081 || process.env.PORT
 
 app.listen(PORT, ()=>{
     console.log(`server is running of port ${PORT}`);

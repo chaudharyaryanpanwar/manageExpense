@@ -1,4 +1,4 @@
-import React,{useState , useEffect} from 'react'
+import React,{useState } from 'react'
 import {Modal,Form,Input,Select, message} from "antd"
 import Layout from '../components/Layout/Layout'
 import axios from "axios"
@@ -14,25 +14,26 @@ const HomePage = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"))
       setLoading(true)
-      const res = await axios.post('/transections/get-transection' , {userid : user.user._id})
+      // const res = await axios.post('/transections/get-transection' , {userid : user.user._id})
+      axios.post("http://localhost:8081/api/v1/transections/get-transection" ,{userid : user.user._id}).then((res)=>{console.log(`insside gettransection${res}`)}).catch((err)=>{console.log(`insider get transection${err}`)})
+      // axios.post("", {}).then(()=>).catch(()=>)
+      // console.log(res)
       setLoading(false)
-      setAllTransection(res.data)
-      console.log(res.data)
+      // setAllTransection(res.data)
+      // console.log(res.data)
     } catch (error) {
       console.log(error)
-      message.error("fetch issues with Transection")
+      message.error("Transections cannot be fetched")
     }
   }
 
-  useEffect(()=>{
-    getAllTransections();
-  } , [])
+  
 
   const handleSubmit = async (values)=>{
     try{
       const user = JSON.parse(localStorage.getItem("user"))
       setLoading(true);
-      await axios.post("http://localhost:8080/api/v1/transactions/add-transection",
+      await axios.post("http://localhost:8081/api/v1/transactions/add-transection",
        {...values, userid: user.user._id});
 
       setLoading(false)
