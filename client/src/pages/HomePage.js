@@ -1,33 +1,87 @@
-import React,{useState } from 'react'
-import {Modal,Form,Input,Select, message} from "antd"
+import React,{useState , useEffect } from 'react'
+import {Modal,Button,Form,Input,Select, message , Table, DatePicker} from "antd"
 import Layout from '../components/Layout/Layout'
 import axios from "axios"
+import background from "./background.svg"
 import Spinner from '../components/Spinner'
+import moment from 'moment'
+import Chart from '../components/Chart'
+import backgroundPhoto from "./background.svg"
+const {RangePicker} = DatePicker;
 
 
 const HomePage = () => {
   const [showModal , setShowModal] = useState(false)
   const [loading,setLoading] = useState(false)
   const [allTransection , setAllTransection ] = useState([])
+  const [frequency , setFrequency] = useState('1')
+  const [selectedDate , setSelecteddate] = useState([])
+  const [type , setType] = useState('all') 
+  const [viewData ,setViewData] = useState('table')
+
+  const columns = [
+    {
+      title : 'Date',
+      dataIndex : 'date'   ,
+      render : (text) => <span>{moment(text).format("YYYY-MM-DD")}</span>
+    },
+    {
+      title : 'Amount',
+      dataIndex : 'amount'    
+    },
+    {
+      title : 'Type',
+      dataIndex : 'type'    
+    },
+    {
+      title : 'Category',
+      dataIndex : 'category'    
+    },
+    {
+      title : 'Refrence',
+      dataIndex : 'refrence'    
+    },
+    {
+      title : 'Actions',
+         
+    },
+
+  ]
 
   const getAllTransections = async ()=>{
     try {
       const user = JSON.parse(localStorage.getItem("user"))
       setLoading(true)
-      // const res = await axios.post('/transections/get-transection' , {userid : user.user._id})
-      axios.post("http://localhost:8081/api/v1/transections/get-transection" ,{userid : user.user._id}).then((res)=>{console.log(`insside gettransection${res}`)}).catch((err)=>{console.log(`insider get transection${err}`)})
-      // axios.post("", {}).then(()=>).catch(()=>)
-      // console.log(res)
+      const res = await axios.post('/transactions/get-transection' ,
+         {userid : user.user._id , frequency , selectedDate , type})
+      console.log(res)
       setLoading(false)
-      // setAllTransection(res.data)
-      // console.log(res.data)
+      setAllTransection(res.data)
+      console.log(res.data)
     } catch (error) {
       console.log(error)
       message.error("Transections cannot be fetched")
     }
   }
 
-  
+  useEffect(()=>{
+    const getAllTransections = async ()=>{
+      try {
+        const user = JSON.parse(localStorage.getItem("user"))
+        setLoading(true)
+        const res = await axios.post('/transactions/get-transection' ,
+           {userid : user.user._id , frequency ,selectedDate , type})
+        console.log(res)
+        setLoading(false)
+        setAllTransection(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.log(error)
+        message.error("Transections cannot be fetched")
+      }
+    }
+    getAllTransections();
+  },[frequency , selectedDate , type])
 
   const handleSubmit = async (values)=>{
     try{
@@ -47,17 +101,55 @@ const HomePage = () => {
     }
   }
   return (
+    <div style={{ backgroundImage: `url(${backgroundPhoto})` }}>
     <Layout>
       {loading && <Spinner/>}
     <div className='filters'>
-        <div>range filters</div>
+        <div >range filters</div>
+        <div>
+        <h6>Time</h6>
+        <Select value={frequency} onChange={(values)=> setFrequency(values)}>
+          <Select.Option value = '7'>Last week</Select.Option>
+          <Select.Option value= '30'>Last Month</Select.Option>
+          <Select.Option value= '1'>Today</Select.Option>
+          <Select.Option value= '12000'>All</Select.Option>
+          <Select.Option value='custom'>Custom</Select.Option>
+        </Select>
+
+        {frequency === 'custom' && <RangePicker value={selectedDate} onChange ={(values)=>setSelecteddate(values)} />}
+        </div>
+        <div >
+
+        <h6>Type</h6>
+        <Select value={type} onChange={(values)=> setType(values)}>
+          <Select.Option value = 'all'>All</Select.Option>
+          <Select.Option value= 'income'>Income</Select.Option>
+          <Select.Option value= 'expense'>Expense</Select.Option>
+        </Select>
+        </div>
+        
+
+
+        
+        <div className='mx-2'>
+          <Button className='mx-2' onClick={()=> setViewData('table')}>Table View</Button>
+          <Button className='mx-2' onClick={()=> setViewData('chart')}>Chart View</Button>
+        </div>
+
+
+
         <div >
             <button className='btn btn-primary'
              onClick={()=> setShowModal(true)}>
               Add New</button>
         </div>
     </div>
-    <div className='content'></div>
+    <div className='content'>
+      {viewData === 'table' ? <Table columns ={columns} dataSource={allTransection} /> 
+      : <Chart allTransection={allTransection}/>  
+    }
+      
+    </div>
     <Modal title = "Add Transection"  
       open = {showModal}
       onCancel={()=>setShowModal(false)}
@@ -103,7 +195,8 @@ const HomePage = () => {
       </Form>
 
     </Modal>
-    </Layout>
+    </ Layout>
+    </div>
     
   )
 }

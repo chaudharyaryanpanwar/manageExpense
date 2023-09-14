@@ -3,6 +3,7 @@ import {Form,Input,message} from "antd"
 import {Link,useNavigate} from "react-router-dom"
 import axios from "axios"
 import Spinner from '../components/Spinner'
+import "./Login.css"
 const Register = () => {
     const navigate = useNavigate()
     const [loading,setLoading] = useState(false)
@@ -25,10 +26,14 @@ const Register = () => {
     
   return (
     <>
+    <div className='bady'>
     <div className='register-page'>
+        <div className='container'>
+            <div className='card'>
+        
         {loading && <Spinner />}
            <Form layout="vertical" onFinish={submitHandler}>
-                <h1>Register Form</h1>
+                <h2>Register Form</h2>
                 <Form.Item label = "Name" name = "name"> 
                     <Input/>
                 </Form.Item>
@@ -44,6 +49,8 @@ const Register = () => {
                 </div>
 
            </Form>
+    </div>
+    </div></div>
     </div>
     </>
   )

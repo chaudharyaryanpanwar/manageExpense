@@ -6,13 +6,13 @@ import Login from "./pages/Login";
 
 const App = function App() {
   return (
-    <>
+    
        <Routes>
          <Route path = "/" element={<ProtectedRoutes><HomePage/></ProtectedRoutes>} />
          <Route path = "/register" element={<Register />}/>
          <Route path = "/login" element= {<Login/>}/>
        </Routes>
-    </>
+    
   );
 }
 export function ProtectedRoutes(props){

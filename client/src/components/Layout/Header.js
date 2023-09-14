@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { message } from "antd";
+import logo from  "./logo.png" ;
+import "./Header.css"
 
+const name = "Expense Manager      ";
 const Header = () => {
   const [loginUser, setLoginUser] = useState("");
   const navigate = useNavigate();
@@ -19,7 +22,7 @@ const Header = () => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-light">
+      <nav className="navbar navbar-expand-lg ">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -34,7 +37,25 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <Link className="navbar-brand" to="/">
-              Expense Management
+              
+              <section >  
+
+<div id="wrap">
+ 
+
+
+<div> <Link className="btn-slide" to="/" >
+   
+  
+    <span class="title">{name}</span>
+    <span class="title title-hover">made by Aryan</span>
+   </Link> </div>
+  
+
+   
+</div>
+  </section>
+
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">

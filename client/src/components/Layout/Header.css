@@ -1,0 +1,91 @@
+
+    
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap');
+
+
+
+#wrap {
+  text-align: center; 
+  z-index: 10;
+  }
+
+h1 {
+  position: relative;
+  color: #fff;
+  font-size: 50px;
+  letter-spacing: 1.5px;
+  padding: 70px 0px 30px;
+}
+
+p {
+  font-family: 'Nunito Sans';
+  font-size: 24px;
+  color: #fff;
+}
+
+.fa { font-size: 19px; width: 20px; }
+
+.btn-slide { 
+    position: relative;
+    display: inline-block; 
+    height: 50px;
+    width: 260px;
+    line-height: 50px;
+    margin: 25px 0;
+    padding: 0px;
+    border-radius: 25px;
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0,0.7);
+    background: linear-gradient(135deg, #70c7e7 0%,#242bf2 100%);
+        }
+        
+.btn-slide:active { 
+    box-shadow: 0 8px 16px -8px rgba(0, 0, 0,0.7);
+    -webkit-transform: scale(0.98);
+    transform: scale(0.96); }
+    
+.btn-slide:hover { 
+    background: linear-gradient(-135deg, #70c7e7 0%,#242bf2 100%); }
+        
+.btn-slide span.circle { 
+    display: block;
+    background-color: #fff;
+    color:#70c7e7;
+    position: absolute;
+    margin: 5px;
+    height: 40px; 
+    width: 40px;
+    top: 0; left: 0;
+    border-radius: 50%;
+    transition: all 1.5s ease;
+ }
+        
+.btn-slide:hover span.circle { 
+    left: 100%;
+    margin-left: -45px;
+    background-color: #fff;
+    color: #242bf2; }
+        
+.btn-slide span.title { 
+    font-family: 'Nunito Sans';
+    position: absolute;
+    left: 85px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #fff;
+    transition: all 1.5s linear; 
+ }
+        
+.btn-slide span.title-hover { opacity: 0;}
+.btn-slide:hover span.title { opacity: 0; }
+.btn-slide:hover span.title-hover { opacity: 1; left: 60px; }   
+    
+@media (max-width: 540px) {
+  h1 { font-size: 36px; }
+  p { font-size: 20px; }
+  
+  .btn-slide { width: 240px; }
+}
