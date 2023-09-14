@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import logo from  "./logo.png" ;
 import "./Header.css"
+import backgroundPhoto from "../../pages/background.svg"
 
 const name = "Expense Manager      ";
 const Header = () => {
@@ -22,6 +23,7 @@ const Header = () => {
   };
   return (
     <>
+    <div style={{ backgroundImage: `url(${backgroundPhoto})` }}>
       <nav className="navbar navbar-expand-lg ">
         <div className="container-fluid">
           <button
@@ -73,6 +75,7 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      </div>
     </>
   );
 };

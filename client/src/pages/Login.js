@@ -4,6 +4,8 @@ import {Link,useNavigate} from "react-router-dom"
 import Spinner from '../components/Spinner'
 import axios from "axios"
 import "./Login.css"
+import "../components/Layout/Footer.js"
+import Footer from '../components/Layout/Footer.js'
 const Login = () => {
     
     const [loading, setLoading] = useState(false)
@@ -52,6 +54,7 @@ const Login = () => {
            </div>
     </div>
     </div>
+    <Footer/>
     </>
   )
 }

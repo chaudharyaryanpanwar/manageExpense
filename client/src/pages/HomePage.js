@@ -14,10 +14,11 @@ const HomePage = () => {
   const [showModal , setShowModal] = useState(false)
   const [loading,setLoading] = useState(false)
   const [allTransection , setAllTransection ] = useState([])
-  const [frequency , setFrequency] = useState('1')
+  const [frequency , setFrequency] = useState('30')
   const [selectedDate , setSelecteddate] = useState([])
   const [type , setType] = useState('all') 
   const [viewData ,setViewData] = useState('table')
+  const [editable , setEditable] = useState(null)
 
   const columns = [
     {
@@ -43,6 +44,16 @@ const HomePage = () => {
     },
     {
       title : 'Actions',
+      render : (text ,record)=>(
+        <div>
+          <Button onClick={()=>{
+            setEditable(record)
+            setShowModal(true)
+          }}>Edit</Button>
+          <Button className='mx-2' onClick={()=>{handleDelete(record)}}>
+            Delete</Button>
+        </div>
+      )
          
     },
 
@@ -81,18 +92,47 @@ const HomePage = () => {
       }
     }
     getAllTransections();
+    
   },[frequency , selectedDate , type])
+
+
+  const handleDelete =async(record)=>{
+    try{
+      await axios.post("/transactions/delete-transection" , {transactionId :record._id})
+      setLoading(false)
+      message.success("Transaction deleted successfully")
+    }catch(error){
+      setLoading(false)
+      console.log(error)
+      message.error("delete unsuccessfull")
+
+    }
+  }
 
   const handleSubmit = async (values)=>{
     try{
       const user = JSON.parse(localStorage.getItem("user"))
       setLoading(true);
-      await axios.post("http://localhost:8081/api/v1/transactions/add-transection",
+      if(editable){
+        await axios.post("http://localhost:8081/api/v1/transactions/edit-transection",
+       {payload :{
+            ...values,
+            userId : user._id
+       },
+       transactionId : editable._id
+      });
+
+      setLoading(false)
+      message.success("transection updated successfully")
+      }else {
+        await axios.post("http://localhost:8081/api/v1/transactions/add-transection",
        {...values, userid: user.user._id});
 
       setLoading(false)
       message.success("transection added successfully")
+      }
       setShowModal(false)
+      setEditable(null)
     }catch(error){
       setLoading(false)
       message.error("failed to add transection ")
@@ -101,7 +141,7 @@ const HomePage = () => {
     }
   }
   return (
-    <div style={{ backgroundImage: `url(${backgroundPhoto})` }}>
+    <div >
     <Layout>
       {loading && <Spinner/>}
     <div className='filters'>
@@ -150,7 +190,7 @@ const HomePage = () => {
     }
       
     </div>
-    <Modal title = "Add Transection"  
+    <Modal title = {editable ? 'Edit Transaction' : 'Add Transaction'}  
       open = {showModal}
       onCancel={()=>setShowModal(false)}
       footer = {false}
@@ -158,7 +198,7 @@ const HomePage = () => {
 
 
 
-      <Form layout="vertical" onFinish={handleSubmit}>
+      <Form layout="vertical" onFinish={handleSubmit} initialValues={editable}>
         <Form.Item label="Amount " name="amount">
           <Input type="text"/>
         </Form.Item>
@@ -176,6 +216,7 @@ const HomePage = () => {
             <Select.Option value="food">Food</Select.Option>
             <Select.Option value="movie">Movie</Select.Option>
             <Select.Option value="bills">Bills</Select.Option>
+            <Select.Option value="medical">Medical</Select.Option>
             <Select.Option value="fee">Fee</Select.Option>
             <Select.Option value="tax">Tax</Select.Option>
           </Select>

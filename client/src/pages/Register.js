@@ -4,6 +4,7 @@ import {Link,useNavigate} from "react-router-dom"
 import axios from "axios"
 import Spinner from '../components/Spinner'
 import "./Login.css"
+import Footer from '../components/Layout/Footer.js'
 const Register = () => {
     const navigate = useNavigate()
     const [loading,setLoading] = useState(false)
@@ -27,13 +28,12 @@ const Register = () => {
   return (
     <>
     <div className='bady'>
-    <div className='register-page'>
+    <div className='register-page '>
         <div className='container'>
             <div className='card'>
-        
         {loading && <Spinner />}
            <Form layout="vertical" onFinish={submitHandler}>
-                <h2>Register Form</h2>
+                <h2>Registration Form</h2>
                 <Form.Item label = "Name" name = "name"> 
                     <Input/>
                 </Form.Item>
@@ -44,14 +44,16 @@ const Register = () => {
                     <Input type = "password"/>
                 </Form.Item>
                 <div className='d-flex justify-content-between'>
-                    <Link to ="/login">alredy registered?Login</Link>
-                    <button className='btn btn-primary'>Login</button>
+                    <Link to ="/login">already registered</Link>
+                    <button className='btn btn-primary'>Register</button>
                 </div>
 
            </Form>
+           </div>
+           </div>
     </div>
-    </div></div>
     </div>
+    <Footer/>
     </>
   )
 }
