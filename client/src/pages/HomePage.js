@@ -6,7 +6,7 @@ import background from "./background.svg"
 import Spinner from '../components/Spinner'
 import moment from 'moment'
 import Chart from '../components/Chart'
-import backgroundPhoto from "./background.svg"
+
 const {RangePicker} = DatePicker;
 
 
@@ -141,7 +141,7 @@ const HomePage = () => {
     }
   }
   return (
-    <div >
+    < div >
     <Layout>
       {loading && <Spinner/>}
     <div className='filters'>

@@ -4,6 +4,7 @@ import { message } from "antd";
 import logo from  "./logo.png" ;
 import "./Header.css"
 import backgroundPhoto from "../../pages/background.svg"
+import TranslateElement from "./TranslateElement";
 
 const name = "Expense Manager      ";
 const Header = () => {
@@ -57,7 +58,7 @@ const Header = () => {
    
 </div>
   </section>
-
+  <TranslateElement/>
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
